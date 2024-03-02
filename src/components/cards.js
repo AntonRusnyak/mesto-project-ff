@@ -25,8 +25,5 @@ const initialCards = [
     }
 ];
 
-<<<<<<<< HEAD:src/components/cards.js
 export { initialCards };
-========
-export { initialCards as initCard };
->>>>>>>> a5f82b6b8c6daf0bea0ce48b769d4d1b0dc5543a:src/scripts/cards.js
+

@@ -1,4 +1,4 @@
-import { cardsContainer, formCardName, formCardLink, popupImage } from './index.js';
+import { cardsContainer, formCardName, formCardLink, popupImage, nameInput, jobInput, profileName, profileDescription } from './index.js';
 import {initialCards} from './cards.js';
 // Функция создания карточки
 function createCard(item, onDelete, likeBtn, openImg) {
@@ -71,4 +71,14 @@ function addNewCard(evt) {
     document.querySelector('.popup_type_new-card').classList.remove('popup_is-opened'); // Закртытие попапа
 };
 
-export { createCard, onDelete, likeBtn, openImg, addCard, deleteElement, addNewCard };
+function handleFormSubmit(evt) {
+    evt.preventDefault(); 
+    let a = nameInput.value;
+    let b = jobInput.value;
+
+    profileName.textContent = a;
+    profileDescription.textContent = b;
+    document.querySelector('.popup_type_edit').classList.remove('popup_is-opened');
+}
+
+export { createCard, onDelete, likeBtn, openImg, addCard, deleteElement, addNewCard, handleFormSubmit };

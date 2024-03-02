@@ -18,21 +18,10 @@ const jobInput = formEditProfile.elements.description; // Занятие
 const profileName = document.querySelector('.profile__title'); // Имя на странице
 const profileDescription = document.querySelector('.profile__description'); // Занятия на странице
 
-function handleFormSubmit(evt) {
-    evt.preventDefault(); 
-    let a = nameInput.value;
-    let b = jobInput.value;
-
-    profileName.textContent = a;
-    profileDescription.textContent = b;
-    document.querySelector('.popup_type_edit').classList.remove('popup_is-opened');
-}
-
-
 import '../pages/index.css';
 import { initialCards } from './cards.js';
 import { openEditButton, openAddButton, closePopup, removeEscape, closeOverlay } from './modal.js';
-import { createCard, onDelete, likeBtn, openImg, addCard, deleteElement, addNewCard } from './card.js';
+import { createCard, onDelete, likeBtn, openImg, addCard, deleteElement, addNewCard, handleFormSubmit } from './card.js';
 const popup = document.querySelector('.popup');
 ////////
 
@@ -46,4 +35,4 @@ popup.addEventListener('click', closeOverlay); // Закрываем попап 
 formEditProfile.addEventListener('submit', handleFormSubmit);
 formNewCard.addEventListener('submit',  addNewCard);
 
-export {cardsContainer, formCardName, formCardLink, popupImage};
+export { cardsContainer, formCardName, formCardLink, popupImage, nameInput, jobInput, profileName, profileDescription };
