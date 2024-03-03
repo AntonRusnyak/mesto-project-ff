@@ -1,43 +1,51 @@
-const popupCloseButton = document.querySelector('.popup__close');
+const profilePopup = document.querySelector('.popup_type_edit');
+const cardPopup = document.querySelector('.popup_type_new-card');
+const imagePopup = document.querySelector('.popup_type_image');
+
+function openPopup(popup) {
+    popup.classList.add('popup_is-opened');
+    window.addEventListener('keydown', handleRemoveEscape);
+}
+
 // Открытие попапа профиля
-function openEditButton() { 
-    document.querySelector('.popup_type_edit').classList.add('popup_is-opened');
-    popupCloseButton.addEventListener('click', closePopup);
-    window.addEventListener('keydown', removeEscape);
+function handleOpenEditButton() { 
+    openPopup(profilePopup);
 }
 
 // Открытие попапа добавления карточки   
-function openAddButton() { 
-    document.querySelector('.popup_type_new-card').classList.add('popup_is-opened');
-    popupCloseButton.addEventListener('click', closePopup);
-    window.addEventListener('keydown', removeEscape);
+function handleOpenAddButton() { 
+    openPopup(cardPopup);
 }
 
 // Закрытие попапа
-function closePopup() {
-    document.querySelector('.popup_type_edit').classList.remove('popup_is-opened');
-    document.querySelector('.popup_type_new-card').classList.remove('popup_is-opened');
-    document.querySelector('.popup_type_image').classList.remove('popup_is-opened');
+function closePopup(popup) {
+    popup.classList.remove('popup_is-opened');
+    window.removeEventListener('keydown', handleRemoveEscape);  // не забываем про удаление обработчика
+}
+
+function closePopupButton() {
+    closePopup(profilePopup);
+    closePopup(cardPopup);
+    closePopup(imagePopup);
 };
 
-function closePopupButton(evt) {
+function handleClosePopupButton(evt) {
     if (evt.target.classList.contains('popup__close')) {
-        closePopup();
+        closePopupButton();
     };
 }
 // Закрытие попапа через Escape
-function removeEscape(evt) {
+function handleRemoveEscape(evt) {
     if (evt.key === 'Escape') {
-        closePopup();
-        window.removeEventListener('keydown', removeEscape);
+        closePopupButton();
     };
 }
 
 // Закрытие попапа через оверлэй
-function closeOverlay(evt) {
+function handleCloseOverlay(evt) {
     if (evt.currentTarget === evt.target) {
-        closePopup();
+        closePopupButton();
     }
-}
-
-export { openEditButton, openAddButton, closePopup, closePopupButton, removeEscape, closeOverlay, popupCloseButton }; 
+} 
+export { profilePopup, cardPopup, imagePopup };
+export { openPopup, handleOpenEditButton, handleOpenAddButton, closePopup, closePopupButton, handleClosePopupButton, handleRemoveEscape, handleCloseOverlay };
