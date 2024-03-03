@@ -1,5 +1,6 @@
-import { cardsContainer, formCardName, formCardLink, popupImage, nameInput, jobInput, profileName, profileDescription } from './index.js';
-import {initialCards} from './cards.js';
+import { cardsContainer, formCardName, formCardLink, popupImage, nameInput, jobInput, profileName, profileDescription, popupCaption } from './index.js';
+import { initialCards } from './cards.js';
+import { removeEscape } from './modal.js';
 // Функция создания карточки
 function createCard(item, onDelete, likeBtn, openImg) {
     const cardTemplate = document.querySelector('#card-template').content; // Темплейт карточки
@@ -31,16 +32,15 @@ function likeBtn(evt) {
     };
 };
 
-// Открытие попапа изображения
 function openImg(evt) {
     if (evt.target.classList.contains('card__image')) {
-        popupImage.src = evt.link;
-        popupImage.alt = evt.name;
+        popupImage.src = evt.target.src;
+        popupImage.alt = evt.target.alt;
+        popupCaption.textContent = evt.target.alt;
         document.querySelector('.popup_type_image').classList.add('popup_is-opened');
         window.addEventListener('keydown', removeEscape);
     }
 }
-
 // Функция вывода карточки на страницу 
 function addCard(item) {
     const card = createCard(item, onDelete, likeBtn, openImg);
@@ -67,6 +67,9 @@ function addNewCard(evt) {
 
     initialCards.unshift(newObject); // Добавляем карточку в массив
     initialCards.forEach(addCard); // Выводим карточки на страницу 
+
+    formCardName.value = '';  //Очищаем поля
+    formCardLink.value = '';
 
     document.querySelector('.popup_type_new-card').classList.remove('popup_is-opened'); // Закртытие попапа
 };
