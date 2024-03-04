@@ -1,5 +1,5 @@
-import { profilePopup, cardPopup, imagePopup } from './modal.js';
-import { openPopup, handleOpenEditButton, handleOpenAddButton, closePopup, closePopupButton, handleClosePopupButton, handleRemoveEscape, handleCloseOverlay } from './modal.js';
+import { profilePopup, cardPopup, imagePopup, formEditProfile, nameInput, jobInput, profileName, profileDescription  } from './modal.js';
+import { openPopup, handleOpenEditButton, handleOpenAddButton, closePopup, handlePopupClose, handleClosePopupButton, handleEscape, handleCloseOverlay } from './modal.js';
 const cardsContainer = document.querySelector('.places__list'); // Контейнер карточек 
 const popupImage = document.querySelector('.popup__image'); // Изображение попапа
 const popupCaption = document.querySelector('.popup__caption');
