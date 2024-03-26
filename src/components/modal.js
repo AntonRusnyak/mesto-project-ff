@@ -1,6 +1,8 @@
+import { clearValidation } from './validation.js';
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
+const avatarPopup = document.querySelector('.popup_type_change-avatar');
 
 function openPopup(popup) {
     popup.classList.add('popup_is-opened');
@@ -18,13 +20,27 @@ const profileDescription = document.querySelector('.profile__description'); // �
 function handleOpenEditButton() { 
     nameInput.value = profileName.textContent;
     jobInput.value = profileDescription.textContent;
+    clearValidation(formEditProfile);
     openPopup(profilePopup);
 }
 
 // Открытие попапа добавления карточки   
+const formNewCard = document.forms.new_place; // Форма добавления карточки 
 function handleOpenAddButton() { 
+    clearValidation(formNewCard);
     openPopup(cardPopup);
 }
+
+// Открытие попапа аватара
+const formChangeAvatar = document.forms.avatar;
+const avatarLink = formChangeAvatar.elements.avatarName;
+
+
+function openPopupAvatar() {
+    clearValidation(formChangeAvatar);
+    openPopup(avatarPopup);
+}
+
 
 // Закрытие попапа
 function closePopup(popup) {
@@ -55,5 +71,5 @@ function handleCloseOverlay(evt) {
         closePopup(evt.currentTarget);
     }
 } 
-export { profilePopup, cardPopup, imagePopup, formEditProfile, nameInput, jobInput, profileName, profileDescription };
-export { openPopup, handleOpenEditButton, handleOpenAddButton, closePopup, handlePopupClose, handleClosePopupButton, handleEscape, handleCloseOverlay };
+export { profilePopup, cardPopup, imagePopup, formEditProfile, nameInput, jobInput, profileName, profileDescription, formChangeAvatar, avatarLink };
+export { openPopup, handleOpenEditButton, handleOpenAddButton, closePopup, handlePopupClose, handleClosePopupButton, handleEscape, handleCloseOverlay,  openPopupAvatar };
