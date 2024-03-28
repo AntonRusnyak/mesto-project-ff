@@ -52,6 +52,7 @@ const validationConfig = {
 /////
 
 function handleOpenPopupAvatar() {
+  formChangeAvatar.reset();
   openPopup(avatarPopup);
 }
 
