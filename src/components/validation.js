@@ -1,11 +1,3 @@
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}
-
 // Показываем ошибку
 function showInputError(formElement, inputElement, validationConfig, errorMessage) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -86,4 +78,4 @@ function clearValidation(profileForm, validationConfig) {
   })
 }
 
-export { clearValidation, enableValidation, validationConfig };
+export { clearValidation, enableValidation };

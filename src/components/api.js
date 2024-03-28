@@ -6,19 +6,19 @@ const config = {
     }
 };
 
+function getResponseData(res) {
+  if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`); 
+  }
+  return res.json();
+} 
+
 // Получение информации о пользователе
 function getUserInformation() {
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
     })
-    .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+    .then(getResponseData);
 }
 
 // Загрузка карточек
@@ -26,14 +26,7 @@ function getInitialCards() {
     return fetch(`${config.baseUrl}/cards`, {
       headers: config.headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+    .then(getResponseData);
 }
 
 // Редактирование профиля
@@ -43,35 +36,17 @@ function editProfile(user) {
         headers: config.headers,
         body: JSON.stringify(user)
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }); 
+      .then(getResponseData);
 };
 
 // Добавление новой карточки
-const formNewCard = document.forms.new_place; // Форма добавления карточки 
-const formCardName = formNewCard.elements.place_name; // Название новой карточки
-const formCardLink = formNewCard.elements.link; // Ссылка на новую карточку
-const nameCard = formCardName.value; // Получаем имя карточки из формы
-const urlCard = formCardLink.value; // Получаем ссылку на карточку из формы
-
 function createNewCard(card) {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify(card)
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+  .then(getResponseData);
 }
 
 // Удаление карточки
@@ -80,14 +55,7 @@ function deleteCard(cardId) {
     method: 'DELETE',
     headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }); 
+  .then(getResponseData);
 }
 
 // Постановка лайка
@@ -96,14 +64,7 @@ function cardIsLiked(cardId) {
     method: 'PUT',
     headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }); 
+  .then(getResponseData);
 }
 
 // Сняли лайк
@@ -112,14 +73,7 @@ function deleteCardIsLiked(cardId) {
     method: 'DELETE',
     headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }); 
+  .then(getResponseData);
 }
 
 // Смена аватара
@@ -131,13 +85,7 @@ function changeAvatar(avatarLink) {
       avatar: avatarLink
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+  .then(getResponseData);
 }
 
-export { formNewCard, formCardName, formCardLink, nameCard, urlCard };
 export { config, getInitialCards, getUserInformation, editProfile, createNewCard, deleteCard, cardIsLiked, deleteCardIsLiked, changeAvatar };
