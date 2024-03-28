@@ -6,6 +6,7 @@ const config = {
     }
 };
 
+// Получение информации о пользователе
 function getUserInformation() {
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
@@ -20,8 +21,7 @@ function getUserInformation() {
       });
 }
 
-
-// Карточки
+// Загрузка карточек
 function getInitialCards() {
     return fetch(`${config.baseUrl}/cards`, {
       headers: config.headers
@@ -74,6 +74,7 @@ function createNewCard(card) {
     });
 }
 
+// Удаление карточки
 function deleteCard(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
@@ -89,6 +90,7 @@ function deleteCard(cardId) {
   }); 
 }
 
+// Постановка лайка
 function cardIsLiked(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
@@ -104,6 +106,7 @@ function cardIsLiked(cardId) {
   }); 
 }
 
+// Сняли лайк
 function deleteCardIsLiked(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
@@ -119,6 +122,7 @@ function deleteCardIsLiked(cardId) {
   }); 
 }
 
+// Смена аватара
 function changeAvatar(avatarLink) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
@@ -135,6 +139,5 @@ function changeAvatar(avatarLink) {
     });
 }
 
-
 export { formNewCard, formCardName, formCardLink, nameCard, urlCard };
-export { getInitialCards, getUserInformation, editProfile, createNewCard, deleteCard, cardIsLiked, deleteCardIsLiked };
+export { config, getInitialCards, getUserInformation, editProfile, createNewCard, deleteCard, cardIsLiked, deleteCardIsLiked, changeAvatar };
