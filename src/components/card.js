@@ -1,10 +1,6 @@
 import { deleteCard, cardIsLiked, deleteCardIsLiked } from './api.js';
-const cardsContainer = document.querySelector('.places__list'); // Контейнер карточек 
-const popupImage = document.querySelector('.popup__image'); // Изображение попапа
-const popupCaption = document.querySelector('.popup__caption');
-const likeCounter = cardsContainer.querySelector('.card__like-counter');
 // Функция создания карточки
-function createCard(item, userId, eventOnDelete, likeBtn, openImg ) {
+function createCard(item, userId, removeCard, likeBtn, openImg ) {
     const cardTemplate = document.querySelector('#card-template').content; // Темплейт карточки
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const cardTitle = cardElement.querySelector('.card__title');
@@ -20,14 +16,14 @@ function createCard(item, userId, eventOnDelete, likeBtn, openImg ) {
     cardDeleteBtn.addEventListener('click', (evt) => {
         deleteCard(cardId)
         .then((res) => {
-            eventOnDelete(evt);
+            removeCard(cardElement);
         })
         .catch((err) => {
             console.log(err);
         })
     });
 
-    if (!userCard(userId, userOwnerInfo)) {
+    if (!checkOwnerCard(userId, userOwnerInfo)) {
         cardDeleteBtn.remove();
     }
 
@@ -68,16 +64,15 @@ function createCard(item, userId, eventOnDelete, likeBtn, openImg ) {
 }
 
 // Проверка на хозяина карточки
-function userCard(userId, userOwnerInfo) {
+function checkOwnerCard(userId, userOwnerInfo) {
     if (userId === userOwnerInfo) {
         return true;
     }
 }
 
 // Функция удаления карточки
-function eventOnDelete(card) {
-    const item = card.target.closest('.card');
-    item.remove();
+function removeCard(card) {
+    card.remove();
 }
 
 // Функция лайка карточки
@@ -97,5 +92,4 @@ function updateLike(likeCounter, card) {
     likeCounter.textContent = card.likes.length;
 }
 
-export {cardsContainer, popupImage, popupCaption };
-export { createCard, eventOnDelete, likeBtn};
+export { createCard, removeCard, likeBtn};

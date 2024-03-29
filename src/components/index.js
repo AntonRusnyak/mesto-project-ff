@@ -2,6 +2,7 @@ const logoSvg = new URL('../images/logo.svg', import.meta.url);
 const headerLogo = document.querySelector('.header__logo'); // Логотип
 headerLogo.src = logoSvg;
 
+
 const profileImage = document.querySelector('.profile__image');
 
 const popups = document.querySelectorAll('.popup');
@@ -13,6 +14,10 @@ const popupCloseButtons = document.querySelectorAll('.popup__close'); // Кно�
 const formNewCard = document.forms.new_place; // Форма добавления карточки 
 const inputCardName = formNewCard.elements.place_name; // Название новой карточки
 const inputCardLink = formNewCard.elements.link; // Ссылка на новую карточку
+
+const cardsContainer = document.querySelector('.places__list'); // Контейнер карточек 
+const popupImage = document.querySelector('.popup__image'); // Изображение попапа
+const popupCaption = document.querySelector('.popup__caption');
 
 // Попапы
 const profilePopup = document.querySelector('.popup_type_edit'); // Информация
@@ -35,10 +40,9 @@ const avatarLink = formChangeAvatar.elements.avatarName;
 
 
 import '../pages/index.css';
-import { createCard, eventOnDelete, likeBtn } from './card.js';
-import { cardsContainer, popupImage, popupCaption } from './card.js';
+import { createCard, removeCard, likeBtn } from './card.js';
 import { openPopup, closePopup, handleEscape, handleCloseOverlay} from './modal.js';
-import { clearValidation, enableValidation} from './validation.js';
+import { clearValidation, enableValidation, setEventListeners} from './validation.js';
 import { config, getInitialCards, getUserInformation, editProfile, createNewCard, deleteCard,  changeAvatar } from './api.js';
 
 ////////
@@ -51,17 +55,21 @@ const validationConfig = {
 }
 /////
 
-function handleOpenPopupAvatar() {
+// Открытие попапов
+function handleOpenPopupAvatar() { // Попап изменения аватара
   formChangeAvatar.reset();
+  clearValidation(formChangeAvatar, validationConfig);
   openPopup(avatarPopup);
 }
 
-function handleOpenAddButton() { 
+function handleOpenAddButton() { // Попап добавления карточки
   formNewCard.reset();
+  clearValidation(formNewCard, validationConfig);
   openPopup(cardPopup);
 }
 
-function handleOpenEditButton() { 
+function handleOpenEditButton() { // Попап изменения информации
+  clearValidation(formEditProfile, validationConfig);
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
   openPopup(profilePopup);
@@ -75,22 +83,6 @@ function openImg(evt) {
       popupCaption.textContent = evt.target.alt;
       openPopup(imagePopup);
   }
-}
-
-// Открытие попапов
-function openEditPopup() { // Попап изменения информации
-  clearValidation(formEditProfile, validationConfig);
-  handleOpenEditButton();
-}
-
-function openNewCardPopup() { // Попап добавления карточки
-  clearValidation(formNewCard, validationConfig);
-  handleOpenAddButton();
-}
-
-function openAvatarPopup() { // Попап изменения аватара
-  clearValidation(formChangeAvatar, validationConfig);
-  handleOpenPopupAvatar();
 }
 
 // Изменение кнопки во время обработки запроса
@@ -119,7 +111,7 @@ Promise.all([getUserInformation(), getInitialCards()])
     const userId = user._id;
 
     cards.forEach((card) => {
-      const newCard = createCard(card, userId, eventOnDelete, likeBtn, openImg);
+      const newCard = createCard(card, userId, removeCard, likeBtn, openImg);
       cardsContainer.append(newCard);
     })
   })
@@ -135,10 +127,8 @@ function addNewCard(evt) {
     createNewCard({name: inputCardName.value, link: inputCardLink.value})
       .then((card) => {
         const ownerId = card.owner._id;
-        const newCard = createCard(card, ownerId, eventOnDelete, likeBtn, openImg);
+        const newCard = createCard(card, ownerId, removeCard, likeBtn, openImg);
         cardsContainer.prepend(newCard);
-        inputCardName.value = '';  //Очищаем поля
-        inputCardLink.value = '';
         closePopup(cardPopup);
       })
       .catch((err) => {
@@ -193,9 +183,9 @@ enableValidation(validationConfig);
 
 /////
 
-popupOpenButtonEdit.addEventListener('click', openEditPopup); // Открывыем попап профиля
-popupOpenButtonAddCard.addEventListener('click', openNewCardPopup); // Открываем попап добавления карточки
-profileImage.addEventListener('click', openAvatarPopup); // Открываем попап аватара
+popupOpenButtonEdit.addEventListener('click', handleOpenEditButton); // Открывыем попап профиля
+popupOpenButtonAddCard.addEventListener('click', handleOpenAddButton); // Открываем попап добавления карточки
+profileImage.addEventListener('click', handleOpenPopupAvatar); // Открываем попап аватара
 popupCloseButtons.forEach((btn) => {
   const popup = btn.closest('.popup');
   btn.addEventListener('click', () => closePopup(popup) ); // Закрываем попап через крестик

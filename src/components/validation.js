@@ -78,4 +78,4 @@ function clearValidation(profileForm, validationConfig) {
   })
 }
 
-export { clearValidation, enableValidation };
+export { clearValidation, enableValidation, setEventListeners };
